@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+
+{%block title%}
+Login
+{%endblock%}
+
+{%block main%}
+<h2 class="lead display-5 text-center text-success">
+   Login
+</h2>
+<div class="container-md ">
+    <form method ="post" class="bg-dark p-2 shadow-sm  " autocomplete="off" >
+        <div class="input-group mb-4 my-5 w-75 mx-auto">
+            <div class="input-group-text bg-dark text-success">@</div>
+            <input autofocus type="text"  class="form-control bg-dark text-success" id="username" name = "username" placeholder="Username">
+        </div>
+
+        <div class="input-group mb-4 w-75 mx-auto">
+            <input type="password" id="password" name ="password" class="form-control bg-dark text-success " placeholder="Password" aria-label="Password">
+        </div>
+
+        <div class = "text-center text-danger lead display-9 fs-6 font-monospace">
+            {%if Err_message%}
+            <i class="bi bi-info-square-fill"></i> {{Err_message}}
+            {%endif%}
+         
+        </div>
+
+
+        <div class="input-group mb-4  w-75 mx-auto">
+            <button class="btn btn-lg btn-secondary ms-auto bg-dark text-success" type="submit" >Login</button>
+        </div>
+
+        
+    </form>
+</div>
+
+{%endblock%}

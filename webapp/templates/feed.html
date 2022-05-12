@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>feed</title>
+        <!-- bootsrapicon link -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+        <!-- stylesheet -->
+        <link rel="stylesheet" href="../static/style.css">
+        <link rel="stylesheet" href="../static/sass/main.css">
+        <link rel="icon" type= "image/x-icon" href="../static/images/favicon .ico">
+
+
+        <!-- custom js script -->
+        <script type="text/javascript" src="../static/template.js"></script>
+
+        <!-- http://getbootstrap.com/docs/5.1/ -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        <!-- importing jquery library -->
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+
+    <!-- importing socketio library using cdn link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script> -->
+    <script src="../static/socket_feed.js" ></script>
+    
+        <!-- <script>
+
+        var socket;
+        $(document).ready(function(){
+            socket = io.connect('http://' + document.domain + ':' + location.port + '/');
+            socket.on('connect', function() {
+                socket.emit('join', {});
+            });
+
+
+
+
+            socket.on('status_message', function(data) {
+
+                $('#chatbox').val($('#chatbox').val() + '<' + data.status_msg + '>\n');
+                $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+            });
+
+
+
+
+            socket.on('feed_post', function(data) {
+                message_sent = data.feed_message
+                if (message_sent){
+                let avarta = $("<i class='bi bi-person-circle fs-1 me-2'></i>")
+                let user = $("<h2 class= 'fs-6 fw-bold text-success  lead '></h2>").append(avarta)
+                user.append(data.username)
+                let mssg = $("<p class = 'chat_text ps-3'></p>").text(data.feed_message)
+                let time = $("<p class = 'chat_time ps-3  text-muted'></p>").text(data.post_time)
+
+                let messg_box = $("<div class ='chat_text_box  ms-2 '></div>")
+                messg_box.append(user)
+                messg_box.append(mssg)
+                messg_box.append(time)
+                $('#feed_content').prepend(messg_box) ;
+                }
+            });
+
+
+
+
+
+            $('#send_feed').click(function(e) {
+                text = $('#feedmessage').val();
+            
+                $('#feedmessage').val('');
+                console.log(text)
+                socket.emit('feed_message', {feed_txt : text});
+            });
+        });
+
+
+    </script>  -->
+
+    </head>
+
+
+    <body class="   bg-dark font-monospace">
+
+      
+         <!-- navbar -->
+         <nav class="navbar sticky-top navbar-expand-md bg-dark pb-3 navbar-dark border-bottom border-secondary">
+            <div class="container-md  mt-3">
+                <!-- navbar brand -->
+                <a href="#" class="navbar-brand ">
+                    <span class="fw-bold  fs-1 ">
+                      <i class="bi bi-controller text-success"></i>
+                    </span>
+                </a>
+                <!-- toggle-button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- nav bar links -->
+                <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+                    <ul class="navbar-nav ">
+                      
+                      <li class="nav-item">
+                        <a class="nav-link" href="/">Feed</a>
+                      </li>
+              
+
+                      {%if user.is_authenticated%}
+                      <li class="nav-item ">
+                        <a class="nav-link text-success" href="/configchat">Enter Chatroom</a>
+                      </li>
+                      {%endif%}
+
+                      {%if session.Room%}
+                      <li class="nav-item">
+                        <a class="nav-link" href="/chatroom">chatroom</a> 
+                      </li>
+                      {%endif%}
+
+                      {%if user.is_authenticated%}
+                      <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                      </li>
+
+                      {%else%}
+
+                      <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign up</a> 
+                      </li>
+                      {%endif%}                  
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </nav>
+
+        
+        <!-- flashed messages -->
+
+    {%with messages = get_flashed_messages(with_categories = true)%}
+        {%if messages%}
+            {%for category,message in messages%}
+                {%if category == "error"%}
+                <div class="alert alert-danger text-center alert-dismissible fade show" role="alert">
+                  {{message}}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                    {%else%}
+                    <div class="alert w-50 bg-success text-dark fw-bold mx-auto text-center alert-dismissible fade show" role="alert">
+                      {{message}}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {%endif%}
+    {% endwith %}
+       
+
+
+            
+        <div class=" border border-secondary feed_body  container-md ">
+            <!-- title -->
+            <!-- <h2 class= "lead display-3 fw-bold fst-italic text-center text-danger">
+                <i class="bi bi-activity"></i>Feed
+            </h2> -->
+
+
+            <!-- info div -->
+
+            <div class="  mt-3 d-none d-md-block ">
+
+
+                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner image_box  ">
+
+                    
+                      <div class="carousel-item  active border-bottom border-success" data-bs-interval="20000">
+                        <img src="../static/images/clark-tibbs-oqStl2L5oxI-unsplash.jpg" class="d-block w-100  img-c" alt="...">
+                      </div>
+
+                    
+                      <div class="carousel-item  border-bottom border-success" data-bs-interval="10000">
+                        <img src="../static/images/dylan-nolte-uosUjz8JQPw-unsplash.jpg" class="d-block w-100 img-c" alt="...">
+                      </div> 
+
+                      
+                      <!-- <div class="carousel-item  " data-bs-interval="10000">
+                        <img src="../static/images/god.webp" class="d-block w-100 img-fluid" alt="...">
+                      </div>
+                         -->
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <!-- timeline content -->
+            <div class="row justify-content-between mt-3  ">
+
+                <h2 class= "lead display-5 fw-light fst-italic text-muted ">
+                    <i class="bi bi-activity text-success"></i>FeeD<i class="bi bi-activity text-danger"></i>
+                </h2> 
+
+                <div class="col-md-8  col-sm-12 pt-3 mb-5 bg-dark content border-start border-secondary rounded " id="feed_content" >
+                   
+
+                    {%if feed_posts%}
+                        {%for feed in feed_posts%}
+                            <div  class ='chat_text_box  ms-2 '>
+                                <h2 class= 'fs-6 fw-bold text-success  lead '><i class='bi bi-person-circle fs-4 me-2'></i>{{feed.username}}</h2>
+                                <p class = 'chat_text ps-3 ' >{{feed.post}}</P>
+                                <p class = 'chat_time ps-3  text-muted'>{{feed.timestr}}</p>
+                            </div>
+                        {%endfor%}
+    
+    
+                    {%endif%}
+    
+                </div>
+             
+                <div class="col-md-3 d-none d-md-block bg-dark info_box rounded me-2 border-end border-secondary ">
+
+                    {%if user.is_authenticated%}
+                    
+                        <div>
+                            <i class="bi col bi-person-fill text-success text-center display-1 d-block userprofile "></i>  
+                            <p class="text-muted col   text-center fs-4   ">
+                                @{{session.username}}
+                            </p>
+
+
+                            <div  class = "mt-5 ">
+                                <p class = "text-muted  border-bottom border-success  rounded"> Recent Chatrooms</p>
+                                {%if chatrooms%}
+                                    {%for chatroom in chatrooms%}
+                                    <p class = "text-success border-bottom border-secondary rounded">#{{chatroom.chatroom}}</p>
+                                    
+                                    {%endfor%}
+                                {%endif%}
+                            </div> 
+                            
+
+                        </div>
+                    
+
+                    {%else%}
+
+                        <div >
+                            <div class="text-center pt-3">
+                                <i class="bi bi-exclamation-diamond text-muted fs-1"></i>
+                            </div>
+
+                            <div class="pt-3 ">
+                                <p class="lead text-center fw-bolder fs-6 text-muted">
+                                    This is the timeline feed where messages about chatrooms started by you or others can be posted
+                                </p>
+                                <p class="lead text-success fw-bold text-center fs-6">
+                                    To be able to post on the feed timeline , enter chatrooms or start one please signup!
+                                </p>
+
+                            </div>
+                            <div class="text-center pt-3">
+                                <i class="bi bi-robot text-success fs-1"></i>
+                            </div>
+                          
+                        </div>
+                  
+                   
+                    {%endif%}
+                </div>
+               
+            </div>
+       
+            
+
+            {%if user.is_authenticated%}
+        
+
+                <div class="container  border rounded fixed-bottom mt-5 bg-dark" id="feed_input_box">
+                    <form class="p-2  ">
+                        <div class="row  justify-content-around ">
+                            <div class="form-floating col-md-9">
+                                <textarea class="form-control  bg-secondary text-light" name="feed" id="feedmessage"  autofocus onfocus = hideit() onblur= showit()></textarea>
+                                <label for="feedmessage" id = "send_message_prompt">Send a post</label>
+                            </div> 
+                            
+                            <div class=" col-md-2 mt-2 ms-auto ">
+                                <button class="btn btn-lg btn-dark px-4 buttn-send text-success  border border-secondary " type="button"  id="send_feed">Send</button>
+                            </div>
+                            
+                        </div>
+                        
+                    </form>
+                </div> 
+
+            
+            {%endif%}
+
+        </div>
+
+
+
+
+
+
+        
+        <script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"
+        ></script>
+        <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+
+        <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"
+        ></script>
+        <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"
+        ></script>
+
+    </body>
+</html>
+

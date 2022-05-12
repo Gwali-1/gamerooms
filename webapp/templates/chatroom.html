@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chatroom</title>
+    <!-- bootsrapicon link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="../static/sass/main.css">
+    <link rel="icon" type= "image/x-icon" href="../static/images/favicon .ico">
+
+    
+   
+     <!-- http://getbootstrap.com/docs/5.1/ -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- importing jquery library -->
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+    <!-- custom js script -->
+    <script type="text/javascript" src="../static/template.js"></script>
+
+
+    <!-- importing socketio library using cdn link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.min.js"></script>
+    <script src="../static/socket_chatroom.js" ></script>
+    
+<!--   
+    <script>
+      var socket;
+      $(document).ready(function(){
+          socket = io.connect('http://' + document.domain + ':' + location.port + '/chatroom');
+          socket.on('connect', function() {
+              socket.emit('join', {});
+          });
+
+          //when user joins
+          socket.on('joined_status', function(data) {
+              let user = $("<p class = 'text-muted ' ></p>").text("@" + data.username)
+              let users = document.getElementById('Chatroom_users');
+              if(users.textContent.includes(data.username)){
+
+                console.log("##");
+                
+              }else{
+                $("#Chatroom_users").prepend(user);
+              }
+              
+          
+          });
+            //when user leaves
+          socket.on('left_status', function(data) {
+            let users = document.getElementById('Chatroom_users');
+            if(users.textContent.includes(data.username)){
+
+            user.textContent(data.username).replace(data.username, "");
+            console.log("hell");
+            }
+            
+        
+        });
+
+
+            //messages from chatroom
+          socket.on('chat_text', function(data) {
+              let avarta = $("<i class='bi bi-person-circle '></i>")
+              let user = $("<h2 class= 'fs-6 fw-bold text-success  lead '></h2>").append(avarta)
+              user.append(data.username)
+              let mssg = $("<p class = 'chat_text ps-3'></p>").text(data.chat_message)
+              let time = $("<p class = 'chat_time ps-3  text-muted'></p>").text(data.chat_time)
+
+              let messg_box = $("<div class ='chat_text_box  ms-2 '></div>")
+              messg_box.append(user)
+              messg_box.append(mssg)
+              messg_box.append(time)
+
+              $('#chatbox').append(messg_box) ;
+
+              $('#chatbox').scrollTop($('#chatbox')[0].scrollHeight);
+          });
+
+
+              //button to send message from chatroom
+          $('#send').click(function(e) {
+              let text = $('#chatmessage').val();
+              let user = $('#chatmessage').attr("name");
+            
+            
+              $('#chatmessage').val('');
+              console.log(user)
+              socket.emit('message_text', {chat_msg : text, username:user});
+          });
+      });
+
+      //function for when leave button
+      function leave_room() {
+          socket.emit('left', {}, function() {
+              socket.disconnect();
+              // go back to the login page
+            
+          });
+      }
+  </script>   -->
+
+ 
+
+</head>
+
+
+
+
+<body class=" font-monospace feed_body ">
+          <!-- navbar -->
+        <nav class="navbar sticky-top navbar-expand-md bg-dark pb-3 navbar-dark">
+            <div class="container-md  mt-3">
+                <!-- navbar brand -->
+                <a href="/" class="navbar-brand ">
+                    <span class="fw-bold  fs-1 ">
+                      <i class="bi bi-controller text-success"></i>
+                    </span>
+                </a>
+                <!-- toggle-button -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- nav bar links -->
+                <div class="collapse navbar-collapse justify-content-end align-center" id="main-nav">
+                    <ul class="navbar-nav ">
+                      
+                      <li class="nav-item">
+                        <a class="nav-link" href="/">Feed</a>
+                      </li>
+              
+
+                      {%if user.is_authenticated%}
+                      <li class="nav-item ">
+                        <a class="nav-link text-success" href="/configchat">Enter Chatroom</a>
+                      </li>
+                      {%endif%}
+
+                      {%if session.Room%}
+                      <li class="nav-item">
+                        <a class="nav-link" href="/chatroom">chatroom</a> 
+                      </li>
+                      {%endif%}
+
+                      {%if user.is_authenticated%}
+                      <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                      </li>
+
+                      {%else%}
+
+                      <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign up</a> 
+                      </li>
+                      {%endif%}                  
+                    </ul>
+                  </div>
+                </div>
+            </div>
+        </nav>
+
+        
+        <!-- flashed messages -->
+
+    
+       {%with messages = get_flashed_messages(with_categories = true)%}
+        {%if messages%}
+            {%for category,message in messages%}
+                {%if category == "error"%}
+                <div class="alert w-50 bg-danger text-dark fw-bold mx-auto alert-danger  text-center alert-dismissible fade show" role="alert">
+                  {{message}}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                    {%else%}
+                    <div class="alert w-50 bg-success text-dark fw-bold mx-auto alert-success text-center alert-dismissible fade show" role="alert">
+                      {{message}}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {%endif%}
+    {% endwith %}
+       
+
+       
+
+<div class="container ">
+
+
+    <!-- chatbox -->
+ 
+    <div class="row align-items-center">
+        <h2 class=" lead display-3 ms-5 text-center text-muted col">#{{session.Room}}</h2>
+        <div class="row col-md-3 mx-auto mb-3">
+
+          
+            <div class=" ms-auto col ">
+              <form method = "post" action="{{url_for("views.leave_chatroom")}}">
+                <input type="hidden" value={{session.user_id}} name = "user">
+                <input type="hidden" value={{session.Room}} name = "room">
+                <button class="btn btn-danger  px-4 buttn-send " type="submit" onclick=leave_room()>Leave</button>
+
+              </form>
+            </div>
+        
+        </div>
+
+    </div>
+
+
+    <div class="row justify-content-between">
+
+        <div class="col-md-8 pt-3  mb-5 chatcontent content border border-secondary bg-dark rounded" id = "chatbox">
+
+          {%if  Chat_messages%}
+            {%for message in Chat_messages%}
+            <div  class ='chat_text_box   ms-2'>
+              <h2 class= 'fs-6 fw-bold text-success  lead '><i class='bi bi-person-circle fs-6 me-2'></i>{{message.username}}</h2>
+              <p class = 'chat_text ps-3' >{{message.chat_message}}</P>
+              <p class = 'chat_time ps-3  text-muted'>{{message.timestr}} </p>
+          </div>
+    
+    
+            {%endfor%}
+          {%endif%}
+     
+      </div>
+      
+      <div class="col-md-3 users_box bg-dark border border-secondary d-none d-md-block rounded">
+
+        <h2 class="text-success mt-4">In Chat</h2>
+
+        <div class="" id= "Chatroom_users">
+
+          {%if members%}
+          {%for member in members%}
+          <p class = 'text-muted ' >@{{member}}</p>
+
+          {%endfor%}
+          {%endif%}
+          
+    
+  
+
+        </div>
+
+      </div>
+      
+    </div>
+   
+        
+    <div class="container  border rounded fixed-bottom mt-5 bg-dark">
+        <form class="p-2">
+            <div class="row  justify-content-around align-items-center">
+                <div class="form-floating col-md-9">
+                    <textarea class="form-control bg-secondary text-light " name= {{session.username}} id="chatmessage" ></textarea>
+                    <label for="feedmessage">send message..</label>
+                </div> 
+                <div class="row col-md-2">
+                    <div class="mt-2 ms-auto">
+                        <button class="btn btn-success btn-lg px-4 buttn-send  " id = "send" type="button" >Send</button>
+                    </div>
+
+                </div>
+
+            
+            </div>
+            
+        </form>
+        
+    </div>
+</div>
+
+
+
+<script
+src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+crossorigin="anonymous"
+></script>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.4.2.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+crossorigin="anonymous"
+></script>
+<script
+src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+crossorigin="anonymous"
+></script>
+
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,64 @@
+<!-- extends base html -->
+{% extends 'layout.html' %}
+
+ <!-- title  -->
+{%block title%}
+signup
+{%endblock%}
+
+<!-- signup form -->
+{%block main%}
+<h2 class="lead display-5 text-success text-center">
+    Sign Up
+</h2>
+<div class="container-md">
+    <form action="/signup" method ="post" class="shadow-sm p-2 bg-dark" autocomplete="on" >
+        <!-- <div class="row justify-content-center my-5 mb-4  w-75 mx-auto">
+            <div class="col-md-6  ">
+                <input type="text"  id="Firstname" class="form-control" placeholder="Firstname" aria-label="First Name">
+            </div>
+            <div class="col-md-6 ">
+                <input type="text" id="Lastname" class="form-control" placeholder="Lastname" aria-label="Last Name">
+            </div>
+        </div> -->
+        <div class="input-group mb-4 w-75 mx-auto my-5">
+            <input type="text"  class="form-control bg-dark text-success " id="name" name = "name" placeholder="Name" autofocus required>
+        </div>
+        <div class="input-group mb-4  w-75 mx-auto">
+            <input type="email"  class="form-control bg-dark text-success "  id="email"  name = "email" placeholder="Email" required>
+        </div>
+
+        <div class="input-group mb-4 w-75 mx-auto">
+            <div class="input-group-text bg-dark text-success">@</div>
+            <input type="text"  class="form-control bg-dark text-success " id="username" name="username" placeholder="Username" required>
+        </div>
+
+        <div class = "text-danger text-muted lead mb-4 w-75 mx-auto" id="Password_info" required>
+
+        </div>
+
+        <div class="input-group mb-4 w-75 mx-auto">
+            <input type="password" id="password"  name="password" class="form-control bg-dark text-success " placeholder="Password" aria-label="Password" onfocus = displayPasswordRequirements() required>
+        </div>
+       
+
+        <div class="input-group mb-4 w-75 mx-auto">
+            <input type="password" id="confirmationPassword" name = "confirmationPassword" class="form-control bg-dark text-success " placeholder="Confirm password" aria-label="Confirm Password" >
+        </div>
+
+        <div class = "text-center text-danger lead display-9 fs-6 font-monospace">
+            {%if Err_message%}
+            <i class="bi bi-info-square-fill"></i> {{Err_message}}
+            {%endif%}
+         
+        </div>
+
+        <div class="input-group mb-4 w-75 mx-auto">
+            <button class="btn btn-lg btn-secondary ms-auto bg-dark text-success " type="submit" >Sign up</button>
+        </div>
+
+        
+    </form>
+</div>
+
+{%endblock%}

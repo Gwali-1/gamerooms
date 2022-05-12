@@ -1,0 +1,128 @@
+
+.content div:last-child{
+    padding-bottom: 4rem;
+}
+
+
+
+#Password_info{
+  font-size:small;
+}
+#feed_content{
+  color: rgb(216, 216, 216);
+  word-wrap: break-word;
+  
+}
+.color_content{
+  color: rgb(216, 216, 216);
+
+}
+
+.userprofile{
+ padding-right:-4px;
+}
+
+.chat_text{
+
+  color: rgb(216, 216, 216);
+  margin-top: -10px;
+}
+.chat_time{
+  font-size: small;
+  margin-top: -13px;
+  padding-bottom: 20px;
+
+}
+
+.info_box{
+   height: 30rem;
+}
+
+.image_box{
+  height: 200px;
+}
+
+.carousel-item{
+  height: 100%;
+
+}
+
+/* .info_box{
+  position: fixed;
+  right: 100px;
+} */
+
+
+.img-c {
+  height: 100%;
+}
+
+
+.feed_body{
+  background-color: rgb(14, 13, 13);
+}
+
+/* media queries */
+
+@media only screen and (max-width: 768px) {
+    .buttn-send {
+      width: 100%;
+
+    }
+    .cv{
+      width: 100%;
+    }
+    .buttn-leave{
+      margin: 0px auto 0px auto;
+      border: 2px solid;
+      width: 50%;
+    }
+
+    .feedcontent{
+      border: none;
+      
+    }
+
+    .chatcontent{
+      /* border: 2px solid; */
+      height: 350px;
+      max-height: 5000px;
+      overflow: scroll;
+  
+    }
+
+ 
+
+
+.content div:last-child{
+  padding-bottom: 2rem;
+}
+
+
+ 
+  }
+
+  @media only screen and (min-width: 768px) {
+    .feedcontent{
+        height: 550px;
+        overflow: scroll;
+        border: 2px solid rgb(171, 179, 187);
+ 
+    }
+
+
+
+    .chatcontent{
+      height: 550px;
+      overflow: scroll;
+      border: 2px solid rgb(171, 179, 187);
+      
+    }
+
+    .users_box{
+      height: 550px;
+      overflow: scroll;
+    }
+
+
+  }

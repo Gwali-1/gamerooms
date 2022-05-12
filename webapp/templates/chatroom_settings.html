@@ -1,0 +1,36 @@
+{%extends "layout.html"%}
+
+{%block title%}
+chatroom config
+{%endblock%}
+
+{%block main%}
+
+
+<div class="container-md  mt-5">
+       
+
+    <p class="lead text-muted text-center fs-6">
+        Join / start a chatroom
+    </p>
+    <form method = "post" class="bg-dark p-2 shadow-sm " autocomplete="off" >
+        <div class="input-group mb-4 my-5 w-75 mx-auto">
+            <div class="input-group-text bg-dark text-success">#</div>
+            <input autofocus type="text"  class="form-control bg-dark text-success" id="chatroomname"  name = "chatroomname" placeholder="Chatroom Name">
+        </div>
+        <div class = "text-center text-danger lead display-9 fs-6 font-monospace">
+            {%if Err_message%}
+            <i class="bi bi-info-square-fill"></i> {{Err_message}}
+            {%endif%}
+         
+        </div>
+
+        <div class="input-group mb-4  w-75 mx-auto">
+            <button class="btn btn-lg btn-dark ms-auto text-success border border-secondary" type="submit" >Enter</button>
+        </div>
+
+        
+    </form>
+</div>
+
+{%endblock%}
